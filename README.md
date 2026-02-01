@@ -1,3 +1,0 @@
-This project implements an advanced multivariate time series forecasting system using a deep learning Encoder–Decoder architecture enhanced with self-attention (Transformer).
-The objective is to accurately forecast future time steps from complex sequential data exhibiting trend, seasonality, noise, and inter-variable dependencies, and to compare its performance against a traditional statistical baseline (SARIMA).
-The project strictly follows the requirements defined by Cultus Skills Center, delivering production-quality Python code, systematic preprocessing, hyperparameter tuning, and metric-based evaluation.
