@@ -1,22 +1,26 @@
 import torch
 import torch.nn as nn
 
-class TimeSeriesTransformer(nn.Module):
+class EncoderDecoderTransformer(nn.Module):
     def __init__(self, input_dim, embed_dim=64, num_heads=4):
         super().__init__()
 
-        self.embedding = nn.Linear(input_dim, embed_dim)
+        self.encoder_embedding = nn.Linear(input_dim, embed_dim)
+        self.decoder_embedding = nn.Linear(input_dim, embed_dim)
 
-        encoder_layer = nn.TransformerEncoderLayer(
+        self.transformer = nn.Transformer(
             d_model=embed_dim,
             nhead=num_heads,
+            num_encoder_layers=2,
+            num_decoder_layers=2,
             batch_first=True
         )
 
-        self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=2)
-        self.fc = nn.Linear(embed_dim, input_dim)
+        self.output_layer = nn.Linear(embed_dim, input_dim)
 
-    def forward(self, x):
-        x = self.embedding(x)
-        x = self.transformer(x)
-        return self.fc(x[:, -1, :])
+    def forward(self, src, tgt):
+        src = self.encoder_embedding(src)
+        tgt = self.decoder_embedding(tgt)
+
+        output = self.transformer(src, tgt)
+        return self.output_layer(output[:, -1, :])
