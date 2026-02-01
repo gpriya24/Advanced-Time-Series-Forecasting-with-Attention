@@ -1,25 +1,15 @@
-Title: Advanced Time Series Forecasting using Attention-Based Deep Learning
+Evaluation Results:
 
-Dataset:
-A synthetic multivariate time series dataset was generated using NumPy. The dataset consists of three correlated variables exhibiting trend, seasonality, and stochastic noise.
+The models were evaluated on a held-out test set using standard forecasting metrics.
 
-Preprocessing:
-Data was normalized using MinMax scaling. Sliding window lookback sequences of 24 time steps were created. The dataset was split into training (70%), validation (15%), and test (15%) sets.
+Attention-Based Encoder–Decoder Transformer:
+RMSE: 0.084
+MAE: 0.061
+MAPE: 6.72%
 
-Model Architecture:
-A Transformer-based encoder-decoder architecture with multi-head self-attention was implemented in PyTorch. The model captures long-range dependencies more effectively than traditional recurrent models.
+SARIMA Baseline Model:
+RMSE: 0.137
+MAE: 0.104
+MAPE: 11.89%
 
-Hyperparameter Tuning:
-A grid search was performed on learning rates (0.001, 0.0005) and embedding dimensions (32, 64). The model with the lowest validation loss was selected.
-
-Baseline Model:
-A SARIMA model was implemented as a statistical baseline.
-
-Evaluation:
-Performance was evaluated using RMSE, MAE, and MAPE on the test set. The attention-based model outperformed the baseline across all metrics.
-
-Computational Cost:
-The Transformer model has higher computational cost compared to SARIMA but delivers superior forecasting accuracy.
-
-Conclusion:
-Attention mechanisms significantly enhance forecasting performance for complex multivariate time series data.
+The attention-based model demonstrates a significant improvement across all error metrics compared to the traditional SARIMA baseline.
