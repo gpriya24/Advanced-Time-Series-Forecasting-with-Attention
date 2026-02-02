@@ -1,15 +1,40 @@
+Project Report: Time Series Forecasting using Attention-Based Models
+
+Introduction:
+This project focuses on forecasting time series data using an attention-based encoder–decoder Transformer model and comparing its performance with a traditional SARIMA baseline. The implementation was developed incrementally, with careful attention to validation stability and reproducibility.
+
+Technologies Used:
+- Python
+- PyTorch
+- Statsmodels (SARIMA)
+- NumPy
+
+Hyperparameter Tuning:
+Multiple configurations were manually evaluated to identify the most stable model.
+
+Tested Parameters:
+Learning Rate: [0.001, 0.0005]
+Embedding Size: [32, 64]
+Attention Heads: [2, 4]
+
+Best Configuration:
+Learning Rate = 0.0005
+Embedding Dimension = 64
+Attention Heads = 4
+
 Evaluation Results:
 
-The models were evaluated on a held-out test set using standard forecasting metrics.
-
-Attention-Based Encoder–Decoder Transformer:
+Attention-Based Transformer:
 RMSE: 0.084
 MAE: 0.061
 MAPE: 6.72%
 
-SARIMA Baseline Model:
+SARIMA Baseline:
 RMSE: 0.137
 MAE: 0.104
 MAPE: 11.89%
 
-The attention-based model demonstrates a significant improvement across all error metrics compared to the traditional SARIMA baseline.
+The encoder–decoder Transformer consistently outperformed the SARIMA baseline across all evaluation metrics.
+
+Conclusion:
+Several architectural variations were tested before finalizing the encoder–decoder design. This structure provided better convergence and more reliable forecasts, particularly for longer prediction horizons.
