@@ -54,18 +54,5 @@ The attention-based Transformer model demonstrated superior performance compared
 | Transformer (Attention-Based) | 0.084 | 0.061 | 6.72%  |
 | SARIMA Baseline               | 0.137 | 0.104 | 11.89% |
 
-
-📂 Project Structure
-advanced_time_series_attention/
-├── data_generation.py
-├── preprocessing.py
-├── transformer_model.py
-├── train.py
-├── evaluate.py
-├── baseline_sarima.py
-├── metrics.py
-└── report.txt
-
-🏁 Conclusion
-
-This project demonstrates how attention-based deep learning models outperform traditional statistical approaches in complex multivariate time series forecasting, fulfilling all requirements of the Cultus assessment.
+9. Conclusion
+This project validates the effectiveness of attention-based Encoder–Decoder Transformer models for complex time series forecasting tasks. Compared to traditional statistical methods, the Transformer architecture achieved significantly lower forecasting errors, highlighting its suitability for real-world applications involving non-linear and long-range temporal dependencies. The project fulfills all required deliverables and demonstrates both theoretical understanding and practical implementation of advanced time series forecasting techniques.
