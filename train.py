@@ -1,30 +1,36 @@
 import torch
 import torch.nn as nn
-from transformer_model import TimeSeriesTransformer
+from transformer_model import EncoderDecoderTransformer
 
-def train_model(X_train, y_train, X_val, y_val, lr=0.001):
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+model = EncoderDecoderTransformer(input_dim=1)
+criterion = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.0005)
 
-    model = TimeSeriesTransformer(input_dim=X_train.shape[2]).to(device)
-    criterion = nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+best_val_loss = float("inf")
+patience = 5
+counter = 0
 
-    X_train = torch.tensor(X_train, dtype=torch.float32).to(device)
-    y_train = torch.tensor(y_train, dtype=torch.float32).to(device)
-    X_val = torch.tensor(X_val, dtype=torch.float32).to(device)
-    y_val = torch.tensor(y_val, dtype=torch.float32).to(device)
+for epoch in range(60):
+    model.train()
+    optimizer.zero_grad()
 
-    for epoch in range(30):
-        model.train()
-        optimizer.zero_grad()
-        output = model(X_train)
-        loss = criterion(output, y_train)
-        loss.backward()
-        optimizer.step()
+    output = model(X_train, X_train)
+    train_loss = criterion(output, y_train)
+    train_loss.backward()
+    optimizer.step()
 
-        model.eval()
-        val_loss = criterion(model(X_val), y_val)
+    model.eval()
+    with torch.no_grad():
+        val_output = model(X_val, X_val)
+        val_loss = criterion(val_output, y_val)
 
-        print(f"Epoch {epoch+1}, Train Loss: {loss.item():.4f}, Val Loss: {val_loss.item():.4f}")
+    print(f"Epoch {epoch+1} | Train Loss: {train_loss:.4f} | Val Loss: {val_loss:.4f}")
 
-    return model
+    if val_loss < best_val_loss:
+        best_val_loss = val_loss
+        counter = 0
+    else:
+        counter += 1
+        if counter >= patience:
+            print("Early stopping triggered")
+            break
