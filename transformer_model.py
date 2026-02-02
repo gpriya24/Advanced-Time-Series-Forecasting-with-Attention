@@ -5,8 +5,8 @@ class EncoderDecoderTransformer(nn.Module):
     def __init__(self, input_dim, embed_dim=64, num_heads=4):
         super().__init__()
 
-        self.encoder_embedding = nn.Linear(input_dim, embed_dim)
-        self.decoder_embedding = nn.Linear(input_dim, embed_dim)
+        self.encoder_embed = nn.Linear(input_dim, embed_dim)
+        self.decoder_embed = nn.Linear(input_dim, embed_dim)
 
         self.transformer = nn.Transformer(
             d_model=embed_dim,
@@ -16,11 +16,11 @@ class EncoderDecoderTransformer(nn.Module):
             batch_first=True
         )
 
-        self.output_layer = nn.Linear(embed_dim, input_dim)
+        self.fc_out = nn.Linear(embed_dim, input_dim)
 
     def forward(self, src, tgt):
-        src = self.encoder_embedding(src)
-        tgt = self.decoder_embedding(tgt)
+        src = self.encoder_embed(src)
+        tgt = self.decoder_embed(tgt)
 
         output = self.transformer(src, tgt)
-        return self.output_layer(output[:, -1, :])
+        return self.fc_out(output[:, -1, :])
